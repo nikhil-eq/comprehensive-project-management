@@ -4,4 +4,4 @@ openpyxl
 requests
 matplotlib
 pathlib
-solara['lab']
+solara[lab]
