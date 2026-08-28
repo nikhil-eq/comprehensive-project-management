@@ -1,4 +1,4 @@
-solara
+solara=1.57.3
 pandas
 openpyxl
 requests
