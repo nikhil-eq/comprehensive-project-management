@@ -6,7 +6,7 @@ rioxarray
 geopandas
 pyproj
 shapely
-stackstac=0.5
+stackstac==0.5
 pandas
 matplotlib
 scipy
