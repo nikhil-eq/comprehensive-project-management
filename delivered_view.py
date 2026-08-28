@@ -33,7 +33,7 @@ def load_workstream_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
                                 month it was completed in (based on its most recent
                                 'completed' + non-Peer-Review dated entry)
     """
-    df = pd.read_excel(EXCEL_PATH, sheet_name='Sheet1')
+    df = load_data()
 
     df = df.dropna(subset=['workstream_name', 'project_name'])
 
