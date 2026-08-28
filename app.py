@@ -22,12 +22,6 @@ routes = [
 ]
 
 @solara.component
-def Page_():
-    solara.lab.theme.dark = True
-    solara.lab.theme.themes.dark.primary    = "#0a1628"
-    solara.lab.theme.themes.dark.navigation = "#0a1628"
-
-@solara.component
 def Layout(children=[]):
     # Force dark mode AND set the dark theme primary to your color
     solara.lab.theme.dark = True
