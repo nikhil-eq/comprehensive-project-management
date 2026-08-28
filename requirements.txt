@@ -1,7 +1,5 @@
-solara=1.57.3
+solara[lab]==1.57.3
 pandas
 openpyxl
 requests
 matplotlib
-pathlib
-solara[lab]
