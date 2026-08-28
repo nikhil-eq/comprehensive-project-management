@@ -9,6 +9,8 @@ from delivered_view import Page4
 from efficiency_view import Page5
 from rnd_view import Page6
 
+from db import load_data
+
 routes = [
     solara.Route(path="/", component=Page, label="Home"),
     solara.Route(path="daily-entry", component=Page1, label="Daily Entry"),

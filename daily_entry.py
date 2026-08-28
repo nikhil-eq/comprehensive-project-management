@@ -5,6 +5,8 @@ import openpyxl
 from pathlib import Path
 from datetime import date, datetime
 
+from db import append_entry, load_project_names
+
 #--------------------------------------------------
 #              DATABASE PATH
 #--------------------------------------------------
@@ -42,18 +44,17 @@ manual_against_automation = solara.reactive("")
 
 
 def save_name_to_excel(entry_date, name: str, workstream: str, project: str,
-                        status: str, stage_val: str, today_update:str, steps: str, hours: float, 
-                        broader_view: str, efficiency_description: str, rnd_explaination: str, 
-                        workstream_value_added: str, manual_against_automation: str):
-
+                       status: str, stage_val: str, today_update: str, steps: str, hours: float,
+                       broader_view: str, efficiency_description: str, rnd_explaination: str,
+                       workstream_value_added: str, manual_against_automation: str):
     if not name.strip():
         return
 
-    wb = openpyxl.load_workbook(EXCEL_PATH)
-    ws = wb['Sheet1']
+    # Convert date to string so JSON can serialize it
+    date_str = entry_date.isoformat() if hasattr(entry_date, 'isoformat') else str(entry_date)
 
     row_data = {
-        'date': entry_date,
+        'date': date_str,   # <-- was entry_date, now date_str
         'user_name': name,
         'workstream_name': workstream,
         'project_name': project,
@@ -62,29 +63,14 @@ def save_name_to_excel(entry_date, name: str, workstream: str, project: str,
         'today_update': today_update,
         'next_steps': steps,
         'time_spent': hours,
-        'broader_view': broader_view, 
+        'broader_view': broader_view,
         'efficiency_description': efficiency_description,
-        'rnd_explaination': rnd_explaination, 
-        'workstream_value_added': workstream_value_added, 
-        'manual_against_automation': manual_against_automation
+        'rnd_explaination': rnd_explaination,
+        'workstream_value_added': workstream_value_added,
+        'manual_against_automation': manual_against_automation,
     }
 
-    header_row = next(ws.iter_rows(min_row=1, max_row=1, values_only=False))
-    header_to_col = {c.value: c.column for c in header_row if c.value is not None}
-
-    missing = [k for k in row_data if k not in header_to_col]
-    if missing:
-        raise ValueError(f"Excel sheet is missing column(s): {missing}")
-
-    user_name_col = header_to_col['user_name']
-    next_row = 2
-    while ws.cell(row=next_row, column=user_name_col).value not in (None, ""):
-        next_row += 1
-
-    for field, value in row_data.items():
-        ws.cell(row=next_row, column=header_to_col[field], value=value)
-
-    wb.save(EXCEL_PATH)
+    append_entry(row_data)
 
 
 def submit_entry():

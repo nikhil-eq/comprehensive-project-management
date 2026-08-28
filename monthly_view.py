@@ -3,19 +3,7 @@ import pandas as pd
 
 from pathlib import Path
 
-EXCEL_PATH = Path('db.xlsx')
-
-def load_data() -> pd.DataFrame:
-    df = pd.read_excel(EXCEL_PATH, sheet_name='Sheet1')
-    df['date'] = pd.to_datetime(df['date'], errors='coerce')
-
-    # drop blank/trailing rows before they get stringified into "nan"
-    df = df.dropna(subset=['workstream_name', 'project_name'])
-
-    for col in ['current_status', 'stage', 'workstream_name', 'project_name', 'user_name']:
-        df[col] = df[col].astype(str).str.strip()
-    df['month_start'] = df['date'].dt.to_period('M').dt.to_timestamp()
-    return df
+from db import load_data
 
 selected_month_label = solara.reactive(None)
 

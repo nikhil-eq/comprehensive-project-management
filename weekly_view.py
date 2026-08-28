@@ -5,15 +5,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-EXCEL_PATH = Path('db.xlsx')
+from db import load_data
 
-def load_data() -> pd.DataFrame:
-    df = pd.read_excel(EXCEL_PATH, sheet_name='Sheet1')
-    df['date'] = pd.to_datetime(df['date'], errors='coerce')
-    for col in ['current_status', 'stage', 'workstream_name', 'project_name', 'user_name']:
-        df[col] = df[col].astype(str).str.strip()
-    df['week_start'] = df['date'] - pd.to_timedelta(df['date'].dt.weekday, unit='D')
-    return df
 selected_week_label = solara.reactive(None)
 
 

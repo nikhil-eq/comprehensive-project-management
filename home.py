@@ -5,8 +5,6 @@ from datetime import date, datetime, timedelta
 
 import solara.lab
 
-EXCEL_PATH = Path('db.xlsx')
-
 refresh_trigger = solara.reactive(0)
 
 COLORS = {
@@ -105,18 +103,7 @@ NAV_CARDS = [
 
 
 # ── Data helpers ──
-def load_data() -> pd.DataFrame:
-    if not EXCEL_PATH.exists():
-        return pd.DataFrame()
-    try:
-        df = pd.read_excel(EXCEL_PATH, sheet_name='Sheet1')
-        df['date'] = pd.to_datetime(df['date'], errors='coerce')
-        for col in ['current_status', 'stage', 'workstream_name', 'project_name', 'user_name']:
-            df[col] = df[col].astype(str).str.strip()
-        df['week_start'] = df['date'] - pd.to_timedelta(df['date'].dt.weekday, unit='D')
-        return df
-    except Exception:
-        return pd.DataFrame()
+from db import load_data
 
 
 def get_summary_stats(df: pd.DataFrame) -> dict:

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from pathlib import Path
 
-EXCEL_PATH = Path('db.xlsx')
+from db import load_data
 
 workstreams_list_delivery = [
     'Initial Stratification - HIR',
