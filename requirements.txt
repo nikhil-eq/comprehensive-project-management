@@ -2,3 +2,6 @@ solara
 pandas
 openpyxl
 requests
+matplotlib
+pathlib
+solara['lab']
