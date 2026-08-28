@@ -1,5 +1,4 @@
 solara[lab]==1.57.3
-numpy==1.26
 gdal==3.9
 rasterio==1.4
 rioxarray
